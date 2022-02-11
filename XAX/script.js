@@ -37,6 +37,8 @@ let grassEaterArr = [];
 let grassPredArr = [];
 let grassXotArr = [];
 matrix[matrix.length - 1][matrix[0].length - 1] = 4;
+
+
 function setup() {
     frameRate(5);
     createCanvas(matrix[0].length * side, matrix.length * side);
