@@ -1,43 +1,13 @@
+let LivingCreature = require('./LivingCreature');
 
-class Xot {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.directions = [];
-        this.multiply = 5;
-    }
-
-    getNewCoordinates() {
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
-    }
-
-    chooseCell(character) {
-        this.getNewCoordinates()
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+module.exports = class Xot extends LivingCreature {
+    constructor(x,y,multiply){
+        super(x,y,multiply);
     }
 
     kill() {
-        var emptyCells2 = this.chooseCell(2);
-        var emptyCells1 = this.chooseCell(1);
+        var emptyCells2 = super.chooseCell(2);
+        var emptyCells1 = super.chooseCell(1);
         var newCell2 = emptyCells2[Math.floor(Math.random() * emptyCells2.length)];
         var newCell1 = emptyCells1[Math.floor(Math.random() * emptyCells1.length)];
         if (newCell1 && this.multiply >= 1) {
