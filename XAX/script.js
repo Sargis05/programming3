@@ -1,17 +1,13 @@
-
-
-
+var socket = io();
 side = 20;
-
-
 function setup() {
     frameRate(5);
-    createCanvas(matrix[0].length * side, matrix.length * side);
+    createCanvas(15 * side, 15 * side);
     background('#acacac');
     
 }
 
-function draw() {
+function nkarel(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
@@ -37,4 +33,16 @@ function draw() {
         }
     }
 
+}
+
+socket.on('send matrix', nkarel);
+
+function killGrassEater(){
+    socket.emit("killGrassEater")
+}
+function killPredator(){
+    socket.emit("killPredator")
+}
+function restart(){
+    socket.emit("restart")
 }

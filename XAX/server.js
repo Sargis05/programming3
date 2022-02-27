@@ -9,9 +9,8 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
-server.listen(3000, () => {
-    console.log('connected');
-});
+server.listen(3000);
+
 
 function generator(matLen, gr, grEat,grpred) {
     let matrix = [];
@@ -45,9 +44,9 @@ function generator(matLen, gr, grEat,grpred) {
     return matrix;
 }
 
- matrix = generator(15, 30, 13,5);
+matrix = generator(15, 30, 13,5);
+matrixrestart = generator(15, 30, 13,5)
 matrix[matrix.length - 1][matrix[0].length - 1] = 4;
-
 
  grassArr = [];
  grassEaterArr = [];
@@ -55,8 +54,8 @@ matrix[matrix.length - 1][matrix[0].length - 1] = 4;
  grassXotArr = [];
 
 Grass = require("./Grass");
-GrassEater = requier("./GrassEater");
-Predator = require (".Predator");
+GrassEater = require("./GrassEater");
+Predator = require ("./Predator");
 Xot = require("./Xot")
 
 
@@ -87,6 +86,7 @@ function createObject(){
     
 
 }
+
 function game(){
     for (let i in grassArr) {
         grassArr[i].mul();
@@ -104,8 +104,37 @@ function game(){
     }
     io.sockets.emit("send matrix", matrix);
 }
+setInterval(game, 400)
 
-setInterval(game, 1000)
-io.on('connection', function () {
-    createObject(matrix)
+function killGrassEater(){
+    grassEaterArr = [];
+    for(let i = 0;i < matrix.length;i++){
+        for(let j = 0;j < matrix[i].length;j++){
+            if(matrix[i][j] == 2){
+                matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+function killPredator(){
+    grassPredArr = [];
+    for(let i = 0;i < matrix.length;i++){
+        for(let j = 0;j < matrix[i].length;j++){
+            if(matrix[i][j] == 3){
+                matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+function restart(){
+    matrix = matrixrestart;
+}
+
+io.on('connection', function(socket) {
+    createObject();
+    socket.on("killGrassEater", killGrassEater);
+    socket.on("killPredator",killPredator);
+    socket.on("restart",restart);
 })

@@ -1,15 +1,24 @@
 {
   "name": "xax",
   "version": "1.0.0",
+  "description": "game",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sargis05/programming3.git"
+  },
+  "author": "Sargis",
   "license": "ISC",
-  "description": "",
+  "bugs": {
+    "url": "https://github.com/Sargis05/programming3/issues"
+  },
+  "homepage": "https://github.com/Sargis05/programming3#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1"
   }
 }
