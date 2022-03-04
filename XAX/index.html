@@ -8,11 +8,16 @@
     <script src="socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 
 </head>
 <body>
+    <h1 class="heading">Buttons</h1>
     <div class="tools">
-        <h1 style="color:rgb(110,110,50)">buttons</h1>
+        
         <ul>
             <li>
                 <button onclick="killGrassEater()">Kill Grass Eater</button>
@@ -22,6 +27,15 @@
             </li>
             <li>
                 <button onclick="restart()">Restart Game</button>
+            </li>
+            <li>
+                <button onclick="createGrassEater()">Create Grass Eater</button>
+            </li>
+            <li>
+                <button onclick="createPredator()">Create Predator</button>
+            </li>
+            <li>
+                <button onclick="createGrass()">Create Grass</button>
             </li>
         </ul>
     </div>

@@ -137,4 +137,34 @@ io.on('connection', function(socket) {
     socket.on("killGrassEater", killGrassEater);
     socket.on("killPredator",killPredator);
     socket.on("restart",restart);
+    socket.on("createGrassEater",createGrassEater);
+    socket.on("createPredator",createPredator);
+    socket.on("createGrass",createGrass)
 })
+function weather() {
+    if (weath == "winter") {
+        weath = "spring"
+    }
+    else if (weath == "spring") {
+        weath = "summer"
+    }
+    else if (weath == "summer") {
+        weath = "autumn"
+    }
+    else if (weath == "autumn") {
+        weath = "winter"
+    }
+    io.sockets.emit('weather', weath)
+}
+
+function createGrassEater(){
+    matrix[Math.floor(Math.random() * 15)][Math.floor(Math.random() * 15)] = 2;
+}
+
+function createPredator(){
+    matrix[Math.floor(Math.random() * 15)][Math.floor(Math.random() * 15)] = 3;
+}
+
+function createGrass(){
+    matrix[Math.floor(Math.random() * 15)][Math.floor(Math.random() * 15)] = 1;
+}
