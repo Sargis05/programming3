@@ -1,18 +1,23 @@
 var socket = io();
 side = 30;
+weath = "summer";
+
+
+
 function setup() {
     frameRate(5);
     createCanvas(15 * side, 15 * side);
     background('#acacac');
     
 }
+
 socket.on("weather", function (data) {
     weath = data;
 })
 
 function nkarel(matrix) {
-    for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[y].length; x++) {
+    for (var y = 0; y < 15; y++) {
+        for (var x = 0; x < 15; x++) {
             if (matrix[y][x] == 1) {
                 if(weath == "summer") {
                     fill("green");
@@ -104,4 +109,8 @@ function createPredator(){
 
 function createGrass(){
     socket.emit("createGrass");
+}
+
+function killAll(){
+    socket.emit("killAll");
 }

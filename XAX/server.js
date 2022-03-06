@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
 });
 server.listen(3000);
 
-
+weath = "winter";
 function generator(matLen, gr, grEat,grpred) {
     let matrix = [];
     for (let i = 0; i < matLen; i++) {
@@ -45,7 +45,7 @@ function generator(matLen, gr, grEat,grpred) {
 }
 
 matrix = generator(15, 30, 13,5);
-matrixrestart = generator(15, 30, 13,5)
+matrixrestart = generator(15, 30, 13,5);
 matrix[matrix.length - 1][matrix[0].length - 1] = 4;
 
  grassArr = [];
@@ -104,7 +104,7 @@ function game(){
     }
     io.sockets.emit("send matrix", matrix);
 }
-setInterval(game, 400)
+setInterval(game, 600)
 
 function killGrassEater(){
     grassEaterArr = [];
@@ -129,7 +129,12 @@ function killPredator(){
 }
 
 function restart(){
-    matrix = matrixrestart;
+    grassArr = [];
+    grassEaterArr = [];
+    grassPredArr = [];
+    grassXotArr = [];
+    matrix = generator(15, 30, 13,5);
+    matrix[14][14] = 4;
 }
 
 io.on('connection', function(socket) {
@@ -139,32 +144,58 @@ io.on('connection', function(socket) {
     socket.on("restart",restart);
     socket.on("createGrassEater",createGrassEater);
     socket.on("createPredator",createPredator);
-    socket.on("createGrass",createGrass)
+    socket.on("createGrass",createGrass);
+    socket.on("killAll",killAll);
 })
+
 function weather() {
     if (weath == "winter") {
-        weath = "spring"
+        weath = "spring";
     }
     else if (weath == "spring") {
-        weath = "summer"
+        weath = "summer";
     }
     else if (weath == "summer") {
-        weath = "autumn"
+        weath = "autumn";
     }
     else if (weath == "autumn") {
-        weath = "winter"
+        weath = "winter";
     }
-    io.sockets.emit('weather', weath)
+    io.sockets.emit('weather', weath);
 }
 
+setInterval(weather,5000);
 function createGrassEater(){
-    matrix[Math.floor(Math.random() * 15)][Math.floor(Math.random() * 15)] = 2;
+    let x = Math.floor(Math.random() * 15);
+    let y = Math.floor(Math.random() * 15);
+    if(matrix[y][x] == 0)matrix[y][x] = 2;
 }
 
 function createPredator(){
-    matrix[Math.floor(Math.random() * 15)][Math.floor(Math.random() * 15)] = 3;
+    let x = Math.floor(Math.random() * 15);
+    let y = Math.floor(Math.random() * 15);
+    if(matrix[y][x] == 0)matrix[y][x] = 3;
 }
 
 function createGrass(){
-    matrix[Math.floor(Math.random() * 15)][Math.floor(Math.random() * 15)] = 1;
+    let x = Math.floor(Math.random() * 15);
+    let y = Math.floor(Math.random() * 15);
+    if(matrix[y][x] == 0)matrix[y][x] = 1;
 }
+function killAll(){
+    for(let i = 0;i < 15;i++){
+        for(let j = 0;j < 15;j++){
+            if(matrix[i][j] != 4)matrix[i][j] = 0;
+        }
+    }
+}
+var statistics = {};
+
+setInterval(function() {
+    statistics.grass = grassArr.length;
+    statistics.grassEater = grassEaterArr.length;
+    statistics.Predator = grassPredArr.length;
+    statistics.grassXot = grassXotArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
+    })
+},1000);
